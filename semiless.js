@@ -1,6 +1,6 @@
 /** Copyright 2015 Magyar Mate under MIT */
-var fs   = require('fs');
-var path = require('path');
+var fs   = require('fs')
+var path = require('path')
 
 function checkValidStatementBeginning(fileContent) {
     var createCheckerState = function () {
@@ -63,7 +63,7 @@ function checkValidStatementBeginning(fileContent) {
             lastEnding == ":" ||
             lastEnding == "{" ||
             illegalStringStart(lastEnding)
-        );
+        )
 
 
     }
@@ -102,27 +102,27 @@ function checkValidStatementBeginning(fileContent) {
 
 
 var walk = function (dir, done) {
-    var results = [];
+    var results = []
     fs.readdir(dir, function (err, list) {
-        if (err) throw err;
-        var pending = list.length;
-        if (!pending) return done(results);
+        if (err) throw err
+        var pending = list.length
+        if (!pending) return done(results)
         list.forEach(function (file) {
-            file = path.resolve(dir, file);
+            file = path.resolve(dir, file)
             fs.stat(file, function (err, stat) {
                 if (stat && stat.isDirectory()) {
                     walk(file, function (res) {
-                        results = results.concat(res);
-                        if (!--pending) done(null, results);
-                    });
+                        results = results.concat(res)
+                        if (!--pending) done(null, results)
+                    })
                 } else {
-                    results.push(file);
-                    if (!--pending) done(null, results);
+                    results.push(file)
+                    if (!--pending) done(null, results)
                 }
-            });
-        });
-    });
-};
+            })
+        })
+    })
+}
 
 
 function hasArray(arr) {
@@ -130,7 +130,7 @@ function hasArray(arr) {
     return false
 }
 
-var flatten = function (list) {return list.reduce(function (p, n) {return p.concat(n);}, [])};
+var flatten = function (list) {return list.reduce(function (p, n) {return p.concat(n)}, [])}
 
 var walkSync = function (dir) {
     return flatten(fs.readdirSync(dir).map(function (x) {return path.resolve(dir, x)})
