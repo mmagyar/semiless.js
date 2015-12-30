@@ -7,7 +7,7 @@ function checkValidStatementBeginning(fileContent) {
         return {
             errorLines    : [],
             inComment     : false,
-            lastLineEnding: ''
+            lastLineEnding: ';'
         }
     }
 
@@ -50,8 +50,9 @@ function checkValidStatementBeginning(fileContent) {
 
 
     var checkLineByCharacter = function (line, checkerState) {
-        var lastEnding              = checkerState.lastLineEnding
-        checkerState.lastLineEnding = line[line.length - 1] || ""
+        var lastEnding = checkerState.lastLineEnding
+        //If this line is empty, keep the last line end, since there is no differance between 1 or 10 new lines in JS
+        checkerState.lastLineEnding = line.length === 0 ? lastEnding : line[line.length - 1]
 
         //We don't need to worry if the preceding character is a comma, semicolon, opening paren|bracket|braces on the last line, since it closes the statement,
         //Or a character that clearly signals that we want continue, like a plus sing at the end of the line
